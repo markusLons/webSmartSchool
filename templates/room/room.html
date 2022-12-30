@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Кабинет № {{ room_id }}</title>
+</head>
+<body>
+    <h1>Кабинет № {{ room_id }} {{ room_name }}</h1>
+<h2>ip: {{ room_ip }}</h2>
+<h2>Свет:
+{% if ledState == 1 %}
+    Включен
+{% else %}
+    Выключен
+{% endif %}
+</h2>
+<h2>Температура: {{ temperature }}°C</h2>
+<h2>Влажность: {{ humidity }}%</h2>
+<h2>Датчик движения:
+{% if bodySensor == 1 %}
+    Движение обнаружено
+{% else %}
+    Движение не обнаружено
+{% endif %}
+
+</h2>
+<h2>Сигнализация:
+{% if alarmState == 1 %}
+    Включена
+{% else %}
+    Выключена
+{% endif %}
+</h2>
+<h2>Дверь:
+{% if doorState == 1 %}
+    Открыта
+{% else %}
+    Закрыта
+{% endif %}
+</h2>
+
+-- Кнопки управления --
+    <form action="/room/{{ room_id  }}" method="post">
+        {% csrf_token %}
+        {% if doorState == 1 %}
+            <input type="submit" name="door" value="Закрыть дверь">
+        {% else %}
+            <input type="submit" name="door" value="Открыть дверь">
+        {% endif %}
+        {% if alarmState == 1 %}
+            <input type="submit" name="alarm" value="Выключить сигнализацию">
+        {% else %}
+            <input type="submit" name="alarm" value="Включить сигнализацию">
+        {% endif %}
+        {% if ledState == 1 %}
+            <input type="submit" name="light" value="Выключить свет">
+        {% else %}
+            <input type="submit" name="light" value="Включить свет">
+        {% endif %}
+    </form>
+</body>
+</html>
